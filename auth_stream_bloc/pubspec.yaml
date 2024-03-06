@@ -42,6 +42,8 @@ dependencies:
   flutter_secure_storage:
   meta:
   go_router:
+  hydrated_bloc:
+  path_provider:
 
 dev_dependencies:
   flutter_test:

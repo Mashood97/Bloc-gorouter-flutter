@@ -1,17 +1,24 @@
-
-
 import 'package:auth_stream_bloc/di_container.dart';
 import 'package:auth_stream_bloc/local_storage.dart';
 import 'package:auth_stream_bloc/navigation/route_names.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'authentication/manager/authentication_bloc.dart';
 
 import 'navigation/go_router_navigation_delegate.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   initializeDependencies();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: kIsWeb
+        ? HydratedStorage.webStorageDirectory
+        : await getApplicationDocumentsDirectory(),
+  );
   runApp(const MyApp());
 }
 
@@ -97,9 +104,13 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Home'),
         actions: [
-          IconButton(onPressed: (){
-            context.goNamed(NavigationRouteNames.testRoute.convertRoutePathToRouteName);
-          }, icon: const Icon(Icons.person),),
+          IconButton(
+            onPressed: () {
+              context.goNamed(
+                  NavigationRouteNames.testRoute.convertRoutePathToRouteName);
+            },
+            icon: const Icon(Icons.person),
+          ),
         ],
       ),
       body: Center(

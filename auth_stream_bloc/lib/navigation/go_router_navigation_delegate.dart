@@ -32,26 +32,13 @@ class GoRouterNavigationDelegate {
     redirect: (ctx, state) async {
       final status = authenticationBloc.state;
 
-      //This will check when the app starts its un initialized so we return splash.
-
-      if (status is AuthenticationUninitialized) {
-        return NavigationRouteNames.initialRoute;
-      }
-
       final loggedIn = status is AuthenticationAuthenticated;
-      if (loggedIn) {
-        //if the user is logged in and we restart the app then we show the splash first to maintain the flow.
-        routes.add(
-          NavigationRouteNames.initialRoute,
-        );
-      }
+
       final logging = routes.contains(state.matchedLocation);
 
-      if (!loggedIn) return logging ? null : NavigationRouteNames.authRoute;
+      if (!loggedIn && !logging) return NavigationRouteNames.authRoute;
 
-      // if the user is logged in but still on the login page, send them to
-      // the home page
-      if (logging) return NavigationRouteNames.homeRoute;
+      if (loggedIn && logging) return NavigationRouteNames.homeRoute;
 
       return null;
     },
@@ -77,10 +64,12 @@ class GoRouterNavigationDelegate {
       GoRoute(
         path: NavigationRouteNames.testRoute,
         name: NavigationRouteNames.testRoute.convertRoutePathToRouteName,
-        builder: (context, state) => Scaffold(
-          appBar: AppBar(),
-          body: const Center(
-            child: Text("Test Route"),
+        pageBuilder: (context, state) => NoTransitionPage(
+          child: Scaffold(
+            appBar: AppBar(),
+            body: const Center(
+              child: Text("Test Route"),
+            ),
           ),
         ),
       ),
