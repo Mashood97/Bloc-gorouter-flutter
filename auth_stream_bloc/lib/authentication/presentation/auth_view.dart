@@ -14,7 +14,6 @@ class AuthView extends StatefulWidget {
 }
 
 class _AuthViewState extends State<AuthView> {
-
   late final LoginBloc loginBloc;
 
   final usernameController = TextEditingController();
@@ -42,11 +41,14 @@ class _AuthViewState extends State<AuthView> {
       appBar: AppBar(
         title: const Text('Login'),
       ),
-      body: LoginForm(
-        authenticationBloc: authenticationBloc,
-        loginBloc: loginBloc,
-        usernameController: usernameController,
-        passwordController: passwordController,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: LoginForm(
+          authenticationBloc: authenticationBloc,
+          loginBloc: loginBloc,
+          usernameController: usernameController,
+          passwordController: passwordController,
+        ),
       ),
     );
   }
@@ -74,12 +76,6 @@ class LoginForm extends StatelessWidget {
       listener: (ctx, state) {
         if (state is LoginFailure) {
           print("ERRORRRRR ISSSS====>>> ${state.error}");
-          // Scaffold.of(context).showSnackBar(
-          //   SnackBar(
-          //     content: Text('${state.error}'),
-          //     backgroundColor: Colors.red,
-          //   ),
-          // );
         }
       },
       builder: (
@@ -103,9 +99,10 @@ class LoginForm extends StatelessWidget {
                     state is! LoginLoading ? _onLoginButtonPressed : null,
                 child: const Text('Login'),
               ),
-              Container(
-                child:
-                    state is LoginLoading ? const CircularProgressIndicator() : null,
+              SizedBox(
+                child: state is LoginLoading
+                    ? const CircularProgressIndicator()
+                    : null,
               ),
             ],
           ),

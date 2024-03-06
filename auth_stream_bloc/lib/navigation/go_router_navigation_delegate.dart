@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auth_stream_bloc/authentication/presentation/auth_view.dart';
 import 'package:auth_stream_bloc/main.dart';
 import 'package:auth_stream_bloc/navigation/route_names.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -42,7 +43,15 @@ class GoRouterNavigationDelegate {
 
       return null;
     },
-    initialLocation: NavigationRouteNames.initialRoute,
+    initialLocation:
+
+    kIsWeb
+        ? NavigationRouteNames.initialRoute
+        : authenticationBloc.state is AuthenticationAuthenticated
+            ? NavigationRouteNames.homeRoute
+            :
+    NavigationRouteNames.initialRoute,
+    // NavigationRouteNames.initialRoute,
     routes: [
       GoRoute(
         parentNavigatorKey: parentNavigationKey,

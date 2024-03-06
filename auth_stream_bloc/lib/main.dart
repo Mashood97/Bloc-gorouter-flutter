@@ -24,7 +24,7 @@ void main() async {
 
 final localStorageInstance = getItInstance.get<LocalStorage>();
 final AuthenticationBloc authenticationBloc =
-    getItInstance.get<AuthenticationBloc>();
+getItInstance.get<AuthenticationBloc>();
 
 final _router = GoRouterNavigationDelegate();
 
@@ -114,12 +114,13 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: Center(
-          child: FilledButton(
-        child: const Text('logout'),
-        onPressed: () {
-          authenticationBloc.add(LoggedOut());
-        },
-      )),
+        child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FilledButton(onPressed: ()  {
+              authenticationBloc.add(LoggedOut());
+            }, child: const Text("Logout"))),
+      ),
+
     );
   }
 }
