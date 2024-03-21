@@ -13,6 +13,8 @@ jobs:
   build:
     name: Build & Release
     runs-on: macos-latest
+    defaults:
+    working-directory: ./auth_stream_bloc
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
