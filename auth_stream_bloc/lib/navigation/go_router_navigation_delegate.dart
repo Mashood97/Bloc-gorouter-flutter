@@ -43,9 +43,12 @@ class GoRouterNavigationDelegate {
 
       return null;
     },
-    initialLocation: kIsWeb
-        ? NavigationRouteNames.initialRoute
-        : authenticationBloc.state is AuthenticationAuthenticated
+    initialLocation:
+
+        // : kIsWeb
+        // ? NavigationRouteNames.initialRoute
+        // :
+        authenticationBloc.state is AuthenticationAuthenticated
             ? NavigationRouteNames.homeRoute
             : NavigationRouteNames.initialRoute,
     // NavigationRouteNames.initialRoute,
