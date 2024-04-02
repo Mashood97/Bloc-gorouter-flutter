@@ -1,6 +1,7 @@
 import 'package:auth_stream_bloc/authentication/manager/authentication_bloc.dart';
 import 'package:auth_stream_bloc/authentication/manager/login_bloc.dart';
 import 'package:auth_stream_bloc/di_container.dart';
+import 'package:auth_stream_bloc/navigation/app_navigations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,6 +30,7 @@ class _AuthViewState extends State<AuthView> {
 
   @override
   void dispose() {
+    loginBloc.formKey.currentState?.reset();
     loginBloc.close();
     usernameController.dispose();
     passwordController.dispose();
@@ -79,34 +81,59 @@ class LoginForm extends StatelessWidget {
         }
       },
       builder: (
-        BuildContext context,
+        BuildContext ctx,
         LoginState state,
       ) {
-        return Form(
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'username'),
-                controller: usernameController,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'password'),
-                controller: passwordController,
-                obscureText: true,
-              ),
-              FilledButton(
-                onPressed:
-                    state is! LoginLoading ? _onLoginButtonPressed : null,
-                child: const Text('Login'),
-              ),
-              SizedBox(
-                child: state is LoginLoading
-                    ? const CircularProgressIndicator()
-                    : null,
-              ),
-            ],
-          ),
-        );
+        return state is LoginLoading
+            ? const Center(child: CircularProgressIndicator.adaptive())
+            : Form(
+                key: loginBloc.formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      decoration: const InputDecoration(labelText: 'username'),
+                      controller: usernameController,
+                      validator: (val) =>
+                          val?.isEmpty == true ? "Please enter username" : null,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(labelText: 'password'),
+                      controller: passwordController,
+                      obscureText: true,
+                      validator: (val) =>
+                          val?.isEmpty == true ? "Please enter password" : null,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    FilledButton(
+                      onPressed: state is! LoginLoading
+                          ? () {
+                              if (loginBloc.formKey.currentState?.validate() ==
+                                  true) {
+                                _onLoginButtonPressed();
+                              }
+                            }
+                          : null,
+                      child: const Text('Login'),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        AppNavigations().navigateToSignUpPage(context: ctx);
+                      },
+                      child: const Text("Signup"),
+                    ),
+                  ],
+                ),
+              );
       },
     );
   }

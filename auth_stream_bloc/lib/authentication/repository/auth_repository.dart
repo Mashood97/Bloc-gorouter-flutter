@@ -6,6 +6,12 @@ abstract class AuthRepository {
     required String password,
   });
 
+  Future<String> register({
+    required String email,
+    required String password,
+    required String username,
+  });
+
   Future<void> logout();
 
   Future<void> persistToken(String token);
@@ -23,16 +29,19 @@ final class AuthRepoImpl implements AuthRepository {
       seconds: 2,
     ));
 
-    return 'token';
+    final response = await supabaseClient.auth
+        .signInWithPassword(password: password, email: username);
+
+    return response.session?.accessToken ?? "";
   }
 
   @override
   Future<void> logout() async {
     await localStorageInstance.clearLocalStorage();
+    await supabaseClient.auth.signOut();
     await Future.delayed(const Duration(
       seconds: 2,
     ));
-
   }
 
   @override
@@ -40,7 +49,7 @@ final class AuthRepoImpl implements AuthRepository {
     await Future.delayed(const Duration(
       seconds: 1,
     ));
-    await localStorageInstance.writeAutoLoginKey(autoLogin: "true");
+    await localStorageInstance.writeAutoLoginKey(autoLogin: token);
     return;
   }
 
@@ -52,6 +61,21 @@ final class AuthRepoImpl implements AuthRepository {
       seconds: 1,
     ));
 
-    return isAuth == "true";
+    return isAuth.isNotEmpty;
+  }
+
+  @override
+  Future<String> register(
+      {required String email,
+      required String password,
+      required String username}) async {
+    await Future.delayed(const Duration(
+      seconds: 2,
+    ));
+
+    final response = await supabaseClient.auth
+        .signUp(password: password, email: email, data: {"username": username});
+
+    return response.session?.accessToken ?? "";
   }
 }

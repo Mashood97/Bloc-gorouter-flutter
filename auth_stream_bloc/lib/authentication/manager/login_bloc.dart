@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:auth_stream_bloc/authentication/repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../main.dart';
 import 'authentication_bloc.dart';
@@ -18,6 +19,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }) : super(const LoginInitial()) {
     on<LoginEvent>(_onEvent);
   }
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Future<void> _onEvent(LoginEvent event, Emitter<LoginState> emit) async {
     if (event is LoginButtonPressed) {

@@ -35,7 +35,7 @@ class LocalStorage {
     return await _storageInstance.read(
           key: _cacheAutoLoginKey,
         ) ??
-        "false";
+        "";
   }
 
   /*Clear whole app data from local storage*/

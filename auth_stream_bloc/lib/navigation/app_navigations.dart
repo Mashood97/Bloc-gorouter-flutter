@@ -1,3 +1,4 @@
+import 'package:auth_stream_bloc/navigation/go_router_navigation_delegate.dart';
 import 'package:auth_stream_bloc/navigation/route_names.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +20,11 @@ class AppNavigations {
 
   void navigateBack({required BuildContext context, dynamic value}) {
     context.pop(value);
+  }
+
+  void navigateToSignUpPage({required BuildContext context}) {
+    context
+        .goNamed(NavigationRouteNames.signUpRoute.convertRoutePathToRouteName);
   }
 
   void navigateFromAuthToDashboard({required BuildContext context}) {

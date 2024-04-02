@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auth_stream_bloc/authentication/presentation/auth_view.dart';
+import 'package:auth_stream_bloc/authentication/presentation/signup_page.dart';
 import 'package:auth_stream_bloc/main.dart';
 import 'package:auth_stream_bloc/navigation/route_names.dart';
 import 'package:flutter/foundation.dart';
@@ -21,7 +22,10 @@ class GoRouterNavigationDelegate {
     return _singleton;
   }
 
-  List<String> routes = [NavigationRouteNames.authRoute];
+  List<String> routes = [
+    NavigationRouteNames.authRoute,
+    "${NavigationRouteNames.authRoute}${NavigationRouteNames.signUpRoute}"
+  ];
 
   GoRouterNavigationDelegate._internal();
 
@@ -61,10 +65,19 @@ class GoRouterNavigationDelegate {
         builder: (BuildContext ctx, GoRouterState state) => const SplashPage(),
       ),
       GoRoute(
-        path: NavigationRouteNames.authRoute,
-        name: NavigationRouteNames.authRoute.convertRoutePathToRouteName,
-        builder: (BuildContext ctx, GoRouterState state) => const AuthView(),
-      ),
+          path: NavigationRouteNames.authRoute,
+          name: NavigationRouteNames.authRoute.convertRoutePathToRouteName,
+          builder: (BuildContext ctx, GoRouterState state) => const AuthView(),
+          routes: [
+            GoRoute(
+              path:
+                  NavigationRouteNames.signUpRoute.convertRoutePathToRouteName,
+              name:
+                  NavigationRouteNames.signUpRoute.convertRoutePathToRouteName,
+              builder: (BuildContext ctx, GoRouterState state) =>
+                  const SignUpPage(),
+            ),
+          ]),
       GoRoute(
         path: NavigationRouteNames.homeRoute,
         pageBuilder: (context, state) => const NoTransitionPage(

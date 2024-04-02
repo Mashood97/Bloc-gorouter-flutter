@@ -1,10 +1,12 @@
 import 'package:auth_stream_bloc/authentication/manager/authentication_bloc.dart';
+import 'package:auth_stream_bloc/authentication/manager/register_bloc.dart';
 import 'package:auth_stream_bloc/authentication/repository/auth_repository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'authentication/manager/login_bloc.dart';
-import 'local_storage.dart';
+import 'local_storage.dart' as ls;
 
 AndroidOptions getAndroidOptions() => const AndroidOptions(
       encryptedSharedPreferences: true,
@@ -28,7 +30,12 @@ void _initializeBlocsAndCubits() {
   getItInstance.registerFactory(
     () => LoginBloc(
       userRepository: getItInstance(),
+    ),
+  );
 
+  getItInstance.registerFactory(
+        () => RegisterBloc(
+      userRepository: getItInstance(),
     ),
   );
 }
@@ -44,6 +51,8 @@ void _initializeExternalPackages() {
   final storage = FlutterSecureStorage(aOptions: getAndroidOptions());
   getItInstance.registerLazySingleton(() => storage);
 
-  final localStorage = LocalStorage();
+  final localStorage = ls.LocalStorage();
   getItInstance.registerLazySingleton(() => localStorage);
+  final SupabaseClient instance = Supabase.instance.client;
+  getItInstance.registerLazySingleton(() => instance);
 }

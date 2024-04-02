@@ -1,11 +1,13 @@
 import 'package:auth_stream_bloc/di_container.dart';
-import 'package:auth_stream_bloc/local_storage.dart';
+import 'package:auth_stream_bloc/local_storage.dart' as ls;
 import 'package:auth_stream_bloc/navigation/route_names.dart';
+import 'package:auth_stream_bloc/utils/app_secrets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'authentication/manager/authentication_bloc.dart';
 
@@ -13,18 +15,25 @@ import 'navigation/go_router_navigation_delegate.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  initializeDependencies();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
+
+  await Supabase.initialize(
+    url: AppSecrets.supabaseUrl,
+    anonKey: AppSecrets.supabaseKey,
+  );
+  initializeDependencies();
+
   runApp(const MyApp());
 }
 
-final localStorageInstance = getItInstance.get<LocalStorage>();
+final localStorageInstance = getItInstance.get<ls.LocalStorage>();
+final supabaseClient = getItInstance.get<SupabaseClient>();
 final AuthenticationBloc authenticationBloc =
-getItInstance.get<AuthenticationBloc>();
+    getItInstance.get<AuthenticationBloc>();
 
 final _router = GoRouterNavigationDelegate();
 
@@ -54,9 +63,19 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          filledButtonTheme: const FilledButtonThemeData(
+              style: ButtonStyle(
+            fixedSize: MaterialStatePropertyAll(
+              Size(350 , 55),
+            ),
+          ))),
       routerConfig: _router.router,
       // home: BlocProvider.value(
       //   value: authenticationBloc,
@@ -116,11 +135,12 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: FilledButton(onPressed: ()  {
-              authenticationBloc.add(LoggedOut());
-            }, child: const Text("Logout"))),
+            child: FilledButton(
+                onPressed: () {
+                  authenticationBloc.add(LoggedOut());
+                },
+                child: const Text("Logout"))),
       ),
-
     );
   }
 }
