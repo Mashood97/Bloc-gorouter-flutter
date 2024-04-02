@@ -76,6 +76,14 @@ final class AuthRepoImpl implements AuthRepository {
     final response = await supabaseClient.auth
         .signUp(password: password, email: email, data: {"username": username});
 
+    await supabaseClient.from("users").insert({
+      "user_name": username,
+      "user_email": email,
+      "is_active": true,
+      "is_deleted": false,
+      "user_image": ""
+    });
+
     return response.session?.accessToken ?? "";
   }
 }

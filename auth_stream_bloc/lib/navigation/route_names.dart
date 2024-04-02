@@ -18,6 +18,6 @@ class NavigationRouteNames {
   static const String authRoute = '/auth';
   static const String signUpRoute = '/signup';
   static const String homeRoute = '/home';
-  static const String testRoute = '/test';
 
+  static const String chatDetailRoute = '/chat-details';
 }

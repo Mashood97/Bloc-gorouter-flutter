@@ -1,10 +1,10 @@
 import 'package:auth_stream_bloc/di_container.dart';
 import 'package:auth_stream_bloc/local_storage.dart' as ls;
-import 'package:auth_stream_bloc/navigation/route_names.dart';
+
 import 'package:auth_stream_bloc/utils/app_secrets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -63,8 +63,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
+          useMaterial3: false,
           inputDecorationTheme: InputDecorationTheme(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp> {
           filledButtonTheme: const FilledButtonThemeData(
               style: ButtonStyle(
             fixedSize: MaterialStatePropertyAll(
-              Size(350 , 55),
+              Size(350, 55),
             ),
           ))),
       routerConfig: _router.router,
@@ -109,37 +109,6 @@ class SplashPage extends StatelessWidget {
     return const Scaffold(
       body: Center(
         child: Text('Splash Screen'),
-      ),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              context.goNamed(
-                  NavigationRouteNames.testRoute.convertRoutePathToRouteName);
-            },
-            icon: const Icon(Icons.person),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FilledButton(
-                onPressed: () {
-                  authenticationBloc.add(LoggedOut());
-                },
-                child: const Text("Logout"))),
       ),
     );
   }

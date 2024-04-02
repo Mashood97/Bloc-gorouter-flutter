@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auth_stream_bloc/authentication/presentation/auth_view.dart';
 import 'package:auth_stream_bloc/authentication/presentation/signup_page.dart';
+import 'package:auth_stream_bloc/chat/presentation/user_chat_details_view.dart';
 import 'package:auth_stream_bloc/main.dart';
 import 'package:auth_stream_bloc/navigation/route_names.dart';
 import 'package:flutter/foundation.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../authentication/manager/authentication_bloc.dart';
+import '../chat/presentation/user_chats_view.dart';
 
 extension StringExtensions on String {
   String get convertRoutePathToRouteName => replaceAll("/", "");
@@ -81,19 +83,14 @@ class GoRouterNavigationDelegate {
       GoRoute(
         path: NavigationRouteNames.homeRoute,
         pageBuilder: (context, state) => const NoTransitionPage(
-          child: HomePage(),
+          child: UserChatsView(),
         ),
       ),
       GoRoute(
-        path: NavigationRouteNames.testRoute,
-        name: NavigationRouteNames.testRoute.convertRoutePathToRouteName,
-        pageBuilder: (context, state) => NoTransitionPage(
-          child: Scaffold(
-            appBar: AppBar(),
-            body: const Center(
-              child: Text("Test Route"),
-            ),
-          ),
+        path: NavigationRouteNames.chatDetailRoute,
+        name: NavigationRouteNames.chatDetailRoute.convertRoutePathToRouteName,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: UserChatDetailsView(),
         ),
       ),
     ],

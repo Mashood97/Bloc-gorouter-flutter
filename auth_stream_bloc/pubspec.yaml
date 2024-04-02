@@ -46,6 +46,7 @@ dependencies:
   path_provider:
   supabase_flutter: ^2.4.0
   envied:
+  intl:
 
 dev_dependencies:
   flutter_test:
