@@ -1,5 +1,4 @@
 import 'package:auth_stream_bloc/chat/manager/chats_bloc.dart';
-import 'package:auth_stream_bloc/chat/repository/chat_repository.dart';
 import 'package:auth_stream_bloc/di_container.dart';
 import 'package:auth_stream_bloc/navigation/app_navigations.dart';
 import 'package:flutter/material.dart';
