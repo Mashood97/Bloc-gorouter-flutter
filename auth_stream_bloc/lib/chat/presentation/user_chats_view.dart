@@ -109,7 +109,7 @@ class _UserChatsViewState extends State<UserChatsView> {
                               ),
                             ),
                             title: Text(
-                              state.userChats[index].userInfo[index].userName,
+                              state.userChats[index].userInfo.first.userName,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
