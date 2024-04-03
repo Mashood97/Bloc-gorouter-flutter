@@ -1,3 +1,4 @@
+import 'package:auth_stream_bloc/navigation/app_navigations.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -59,7 +60,10 @@ class _UserChatsViewState extends State<UserChatsView> {
                 separatorBuilder: (_, __) => const Divider(),
                 itemBuilder: (ctx, index) => ListTile(
                   contentPadding: EdgeInsets.zero,
-                  onTap: () {},
+                  onTap: () {
+                    AppNavigations()
+                        .navigateFromChatsToChatDetails(context: ctx);
+                  },
                   leading: const CircleAvatar(
                     radius: 25,
                     backgroundImage: NetworkImage(

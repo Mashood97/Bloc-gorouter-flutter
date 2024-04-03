@@ -32,4 +32,11 @@ class AppNavigations {
       NavigationRouteNames.homeRoute,
     );
   }
+
+  void navigateFromChatsToChatDetails({
+    required BuildContext context,
+  }) {
+    context.pushNamed(
+        NavigationRouteNames.chatDetailRoute.convertRoutePathToRouteName);
+  }
 }

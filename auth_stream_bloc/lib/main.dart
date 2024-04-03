@@ -113,3 +113,25 @@ class SplashPage extends StatelessWidget {
     );
   }
 }
+
+
+
+double getResponsiveValue(BuildContext context, double baseValue) {
+  final screenWidth = MediaQuery.of(context).size.width;
+
+  // Define scaling factors for different screen widths
+  // Adjust these values to suit your design preferences
+  if (screenWidth < 600) {
+    // Small screen size
+    return baseValue * 0.8;
+  } else if (screenWidth >= 600 && screenWidth < 1000) {
+    // Medium screen size
+    return baseValue;
+  } else {
+    if (screenWidth > 2000) {
+      return baseValue * 2.5;
+    }
+    // Large screen size
+    return baseValue * 1.2;
+  }
+}
