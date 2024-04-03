@@ -1,5 +1,10 @@
 part of 'chats_bloc.dart';
 
-abstract class ChatsEvent extends Equatable {
+sealed class ChatsEvent extends Equatable {
   const ChatsEvent();
+}
+
+final class FetchUserChats extends ChatsEvent {
+  @override
+  List<Object?> get props => [];
 }

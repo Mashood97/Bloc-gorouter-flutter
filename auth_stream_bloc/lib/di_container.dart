@@ -1,11 +1,13 @@
 import 'package:auth_stream_bloc/authentication/manager/authentication_bloc.dart';
 import 'package:auth_stream_bloc/authentication/manager/register_bloc.dart';
 import 'package:auth_stream_bloc/authentication/repository/auth_repository.dart';
+import 'package:auth_stream_bloc/chat/repository/chat_repository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'authentication/manager/login_bloc.dart';
+import 'chat/manager/chats_bloc.dart';
 import 'local_storage.dart' as ls;
 
 AndroidOptions getAndroidOptions() => const AndroidOptions(
@@ -38,11 +40,20 @@ void _initializeBlocsAndCubits() {
       userRepository: getItInstance(),
     ),
   );
+  getItInstance.registerFactory(
+        () => ChatsBloc(
+      chatRepository: getItInstance(),
+    ),
+  );
 }
 
 void _initializeRepositories() {
   getItInstance.registerLazySingleton<AuthRepository>(
     () => AuthRepoImpl(),
+  );
+
+  getItInstance.registerLazySingleton<ChatRepository>(
+        () => ChatRepositoryImplementation(),
   );
 }
 

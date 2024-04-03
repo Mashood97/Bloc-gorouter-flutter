@@ -81,7 +81,8 @@ final class AuthRepoImpl implements AuthRepository {
       "user_email": email,
       "is_active": true,
       "is_deleted": false,
-      "user_image": ""
+      "user_image": "",
+      "user_uuid": response.user?.id ?? "",
     });
 
     return response.session?.accessToken ?? "";

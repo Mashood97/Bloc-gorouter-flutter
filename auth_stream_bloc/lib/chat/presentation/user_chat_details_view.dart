@@ -33,40 +33,38 @@ class _UserChatDetailsViewState extends State<UserChatDetailsView> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(14),
-        child: ListView.builder(
-          itemBuilder: (ctx, index) => Padding(
-            padding: index % 2 == 0
-                ? const EdgeInsets.only(left: 0, top: 5, bottom: 5, right: 10)
-                : const EdgeInsets.only(
-                    right: 0,
-                    left: 10,
-                    top: 5,
-                    bottom: 5,
-                  ),
-            child: Align(
-              alignment:
-                  index % 2 == 0 ? Alignment.centerLeft : Alignment.centerRight,
-              child: Container(
-                height: getResponsiveValue(ctx, 75),
-                width: getResponsiveValue(ctx, 250),
-                decoration: BoxDecoration(
-                  color: index % 2 == 0
-                      ? Colors.grey.shade300
-                      : Colors.amber.shade200,
-                  borderRadius: index % 2 == 0
-                      ? const BorderRadius.only(
-                          topRight: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        )
-                      : const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        ),
+      body: ListView.builder(
+        reverse: true,
+        itemBuilder: (ctx, index) => Padding(
+          padding: index % 2 == 0
+              ? const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10)
+              : const EdgeInsets.only(
+                  right: 10,
+                  left: 10,
+                  top: 5,
+                  bottom: 5,
                 ),
+          child: Align(
+            alignment:
+                index % 2 == 0 ? Alignment.centerLeft : Alignment.centerRight,
+            child: Container(
+              height: getResponsiveValue(ctx, 75),
+              width: getResponsiveValue(ctx, 250),
+              decoration: BoxDecoration(
+                color: index % 2 == 0
+                    ? Colors.grey.shade300
+                    : Colors.amber.shade200,
+                borderRadius: index % 2 == 0
+                    ? const BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      )
+                    : const BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
               ),
             ),
           ),
